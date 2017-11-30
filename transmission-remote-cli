@@ -3341,6 +3341,8 @@ class Interface(object):
 
             elif c == ord('k'):
                 self.blank_lines = not self.blank_lines
+                self.recalculate_torrents_per_page()
+                self.follow_list_focus()
 
             elif c == ord('v'):
                 viewer = self.dialog_input_text('File Viewer\nExample: xdg-viewer %s', self.file_viewer)
