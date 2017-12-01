@@ -48,6 +48,7 @@ from subprocess import call, Popen
 import netrc
 import operator
 from distutils.spawn import find_executable
+import traceback
 
 try:
     import httplib
@@ -151,6 +152,18 @@ config.set('Colors', 'file_prio_normal', 'bg:white,fg:black')
 config.set('Colors', 'file_prio_low',    'bg:yellow,fg:black')
 config.set('Colors', 'file_prio_off',    'bg:blue,fg:black')
 
+
+def excepthook(type, value, tb):
+    try:
+        curses.endwin()
+    except curses.error:
+        pass
+
+    print
+    print os.path.basename(sys.argv[0])+' has encountered an uncaught exception:'
+    print ''.join(traceback.format_exception(type, value, tb)),
+
+sys.excepthook = excepthook
 
 class ColorManager(object):
     def __init__(self, config):
