@@ -160,8 +160,8 @@ def excepthook(type, value, tb):
         pass
 
     print
-    print os.path.basename(sys.argv[0])+' has encountered an uncaught exception:'
-    print ''.join(traceback.format_exception(type, value, tb)),
+    print >> sys.stderr, os.path.basename(sys.argv[0])+' has encountered an uncaught exception:'
+    print >> sys.stderr, ''.join(traceback.format_exception(type, value, tb)),
 
 sys.excepthook = excepthook
 
