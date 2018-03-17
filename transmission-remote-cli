@@ -273,6 +273,10 @@ class TransmissionRequest(object):
 				reason = str(msg.reason)
 			quit("Cannot connect to %s: %s" % (self.http_request.host, reason), CONNECTION_ERROR)
 
+		# sometimes this just happens
+		except httplib.BadStatusLine:
+			pass
+
 	def get_response(self):
 		"""Get response to previously sent request."""
 
@@ -2449,10 +2453,10 @@ class Interface(object):
 			if len(str(peer['port'])) > port_width: port_width = len(str(peer['port']))
 
 		# Column names
-		column_names = 'Flags   %3d Down   %3d Up Progress         ETA ' % \
+		column_names = 'Flags   %3d Down   %3d Up Progress           ETA ' % \
 		               (self.torrent_details['peersSendingToUs'], self.torrent_details['peersGettingFromUs'])
-		column_names += 'Client'.ljust(clientname_width + 1) \
-		              + 'Address'.ljust(address_width+port_width+1)
+		column_names += 'Client '.ljust(clientname_width + 1) \
+		              + 'Address '.ljust(address_width+port_width+1)
 		if features['geoip']: column_names += 'Country'
 		if features['dns']: column_names += ' Host'
 
@@ -2493,14 +2497,14 @@ class Interface(object):
 
 			# ETA
 			if peer['progress'] < 1 and peer['download_speed'] > 1024:
-				self.pad.addstr(" %6s %4s " % \
+				self.pad.addstr(" %8s %4s " % \
 				                ('~' + scale_bytes(peer['download_speed']),
 				                 '~' + scale_time(peer['time_left'])))
 			else:
 				if peer['progress'] < 1:
-					self.pad.addstr("  <guessing> ")
+					self.pad.addstr("    <guessing> ")
 				else:
-					self.pad.addstr("             ")
+					self.pad.addstr("               ")
 			# Client
 			self.pad.addstr(self.enc(peer['clientName'].ljust(clientname_width + 1)))
 			# Address:Port
