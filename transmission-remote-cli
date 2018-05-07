@@ -136,7 +136,7 @@ config.add_section('Colors')
 config.set('Colors', 'title_seed',       'bg:green,fg:black')
 config.set('Colors', 'title_download',   'bg:blue,fg:white')
 config.set('Colors', 'title_idle',       'bg:cyan,fg:black')
-config.set('Colors', 'title_verify',     'bg:magenta,fg:cyan')
+config.set('Colors', 'title_verify',     'bg:magenta,fg:green')
 config.set('Colors', 'title_paused',     'bg:black,fg:white')
 config.set('Colors', 'title_error',      'bg:red,fg:white')
 config.set('Colors', 'download_rate',    'bg:black,fg:blue')
@@ -275,6 +275,9 @@ class TransmissionRequest(object):
 
 		# sometimes this just happens
 		except httplib.BadStatusLine:
+			pass
+
+		except SocketError:
 			pass
 
 	def get_response(self):
