@@ -287,7 +287,11 @@ class TransmissionRequest(object):
 			return {'result': 'no open request'}
 		response = b''
 		while True:
-			chunk = self.open_request.read()
+			try:
+				chunk = self.open_request.read()
+			except SocketError:
+				pass
+
 			if not chunk:
 				break
 			response += chunk
