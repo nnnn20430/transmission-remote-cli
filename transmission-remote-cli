@@ -277,7 +277,7 @@ class TransmissionRequest(object):
 		except httplib.BadStatusLine:
 			pass
 
-		except SocketError:
+		except socket.error:
 			pass
 
 	def get_response(self):
@@ -287,9 +287,10 @@ class TransmissionRequest(object):
 			return {'result': 'no open request'}
 		response = b''
 		while True:
+			chunk = None
 			try:
 				chunk = self.open_request.read()
-			except SocketError:
+			except socket.error:
 				pass
 
 			if not chunk:
